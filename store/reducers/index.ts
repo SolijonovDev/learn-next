@@ -1,24 +1,22 @@
-import { combineReducers } from "redux";
-import { HYDRATE } from "next-redux-wrapper";
-import { userReducer } from "./userReducer";
-import { authReducer } from "./auth";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const rootReducer = combineReducers({
-  auth: authReducer,
-  user: userReducer,
-});
+type initialStateType={
+  paginationPage:number | string | null | undefined;
+}
 
-export const reducer = (state: any, action: any) => {
-  if (action.type === HYDRATE) {
-    const nextState = {
-      ...state,
-      ...action.payload,
-    };
-    if (state.count) nextState.count = state.count;
-    return nextState;
-  } else {
-    return rootReducer(state, action);
-  }
+const initialState:initialStateType = {
+  paginationPage: null,
 };
 
-export type RootState = ReturnType<typeof rootReducer>;
+const moviesReducer = createSlice({
+  name: "movies",
+  initialState,
+  reducers: {
+    setPagination(state:initialStateType, action:PayloadAction<number | string>) {
+      state.paginationPage = action.payload;
+    },
+  },
+});
+export const { setPagination } = moviesReducer.actions;
+
+export default moviesReducer.reducer;

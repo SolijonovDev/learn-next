@@ -1,8 +1,14 @@
-import {applyMiddleware, createStore} from "redux";
-import {reducer} from "./reducers";
-import thunk from "redux-thunk";
-import {composeWithDevTools} from 'redux-devtools-extension'
+import { configureStore } from '@reduxjs/toolkit'
+import moviesReducer from './reducers';
 
-export const store=createStore(reducer,composeWithDevTools(applyMiddleware(thunk)));
 
+export const store = configureStore({
+  reducer: {
+    movies:moviesReducer,
+  },
+})
+
+
+
+export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
